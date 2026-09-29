@@ -1,0 +1,68 @@
+# Star Wars visual research project.
+# Copy this file and edit `theme` to point the pipeline at any other topic.
+
+theme:
+  name: star wars
+  query_template: "{concept} star wars"
+  aliases:
+    vader: darth vader
+    the emperor: emperor palpatine
+    palpatine: emperor palpatine
+    luke: luke skywalker
+    leia: princess leia
+    han: han solo
+    obi-wan: obi-wan kenobi
+    ben kenobi: obi-wan kenobi
+    the falcon: millennium falcon
+    falcon: millennium falcon
+    threepio: c-3po
+    artoo: r2-d2
+    chewie: chewbacca
+    the death star: death star
+  boost_terms:
+    - jedi
+    - sith
+    - darth
+    - skywalker
+    - death star
+    - lightsaber
+    - falcon
+    - empire
+    - rebel
+  exclude_terms:
+    - lego
+    - funko
+    - toy
+    - toys
+    - cake
+    - costume
+    - cosplay
+    - meme
+    - tattoo
+    - coloring
+    - birthday
+    - etsy
+    - aliexpress
+
+segmentation:
+  min_seconds: 7
+  max_seconds: 9
+
+concepts:
+  extractor: auto        # llm if ANTHROPIC_API_KEY is set, else rules
+  max_per_segment: 3
+
+search:
+  provider: duckduckgo
+  images_per_concept: 3
+  safe_search: true
+
+download:
+  enabled: true
+  timeout_seconds: 15
+  min_bytes: 15000
+  max_images_per_segment: 6
+
+transcription:
+  transcriber: openai    # or: local (pip install faster-whisper)
+  language: en

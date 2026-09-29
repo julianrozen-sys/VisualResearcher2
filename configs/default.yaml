@@ -1,0 +1,31 @@
+# Neutral starter config. Set theme.name (and optionally the rest) for your project.
+
+theme:
+  name: ""                          # e.g. "world war 2", "formula 1", "ancient rome"
+  query_template: "{concept} {theme}"
+  aliases: {}
+  boost_terms: []
+  exclude_terms: [meme, coloring, etsy]
+
+segmentation:
+  min_seconds: 7
+  max_seconds: 9
+
+concepts:
+  extractor: auto
+  max_per_segment: 3
+
+search:
+  provider: duckduckgo
+  images_per_concept: 3
+  safe_search: true
+
+download:
+  enabled: true
+  timeout_seconds: 15
+  min_bytes: 15000
+  max_images_per_segment: 6
+
+transcription:
+  transcriber: openai
+  language: null
