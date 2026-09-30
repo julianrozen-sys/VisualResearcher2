@@ -40,6 +40,8 @@ DEFAULTS: dict = {
         "transcriber": "openai",  # openai | local
         "language": None,
         "local_model": "base",
+        "max_direct_mb": 20,  # larger files are split into chunks (OpenAI API caps uploads at 25 MB)
+        "chunk_minutes": 10,
     },
 }
 

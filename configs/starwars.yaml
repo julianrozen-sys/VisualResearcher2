@@ -66,3 +66,5 @@ download:
 transcription:
   transcriber: openai    # or: local (pip install faster-whisper)
   language: en
+  max_direct_mb: 20      # bigger files are auto-split into chunks
+  chunk_minutes: 10

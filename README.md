@@ -4,7 +4,7 @@ Turn an audio track into a time-coded visual shot list, automatically.
 
 Give it an audio file. It:
 
-1. **Transcribes** the audio with word/segment timestamps (OpenAI Whisper API or local `faster-whisper`).
+1. **Transcribes** the audio with segment timestamps (OpenAI Whisper API or local `faster-whisper`). Files of any size work: big audio or video is automatically split at natural pauses, transcribed in pieces, and stitched back onto the original timeline.
 2. **Segments** the transcript into configurable time windows (default **7–9 seconds**, tuned for cut-length editing).
 3. **Extracts visual concepts** per segment — proper names first (characters, places, ships), then salient keywords. Optionally uses Claude for much more accurate concept extraction.
 4. **Builds themed search queries** so you never get random results: every query is rendered through a template such as `"{concept} star wars"`.
@@ -96,6 +96,26 @@ download:
 
 To build a project for a different topic, copy the YAML and change `theme` —
 the pipeline itself never hardcodes Star Wars.
+
+## Large files
+
+The OpenAI API rejects uploads over 25 MB, so this tool handles size for you. Any file over
+`transcription.max_direct_mb` (default 20 MB), or in a format the API doesn't accept, is converted by
+ffmpeg to small mono speech-quality audio (about 0.24 MB per minute) and cut into ~10 minute chunks.
+Cuts are placed in the middle of pauses so words aren't sliced. Each chunk is transcribed and its
+timestamps are shifted back onto the original timeline.
+
+- **Any input:** wav, flac, mp3, m4a, and even video files (the audio track is extracted). Multi-hour
+  and multi-GB files work; memory use stays flat because ffmpeg streams the audio.
+- **No ffmpeg install needed:** `imageio-ffmpeg` (in `requirements.txt`) bundles a copy. A system
+  ffmpeg is used if you have one.
+- **Resumable:** finished chunks are cached in `<out>/_work/chunks/`. If a run is interrupted (network
+  drop, closed laptop), re-run the same command and it continues without re-paying for transcribed
+  audio. Delete `<out>/_work` afterwards to reclaim the space.
+- **Retries:** each chunk is retried up to 3 times with backoff on API errors.
+- **Tuning:** `transcription.chunk_minutes` (default 10) and `transcription.max_direct_mb`.
+- **Cost:** Whisper API is billed per minute of audio, so a 2-hour file costs about $0.72.
+- `--transcriber local` (faster-whisper) has no size limit either and needs no key.
 
 ## Providers
 

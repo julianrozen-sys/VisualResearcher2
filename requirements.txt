@@ -2,3 +2,4 @@ pyyaml>=6.0
 requests>=2.31
 ddgs>=9.0
 openai>=1.40
+imageio-ffmpeg>=0.5

@@ -30,7 +30,7 @@ def run(
     else:
         print(f"[1/4] Transcribing {audio_path} "
               f"({config.transcription_cfg.get('transcriber')})")
-        transcript = transcribe(audio_path, config.transcription_cfg)
+        transcript = transcribe(audio_path, config.transcription_cfg, work_dir=out / "_work")
         (out / "transcript.json").write_text(json.dumps(transcript, indent=2))
 
     # 2. Windows
